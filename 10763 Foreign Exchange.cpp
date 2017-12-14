@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <set>
 #include <map>
 #include <iostream>
 using namespace std;
@@ -19,19 +18,25 @@ int main()
 	{
 		if (n % 2)
 		{
+			skipLines(n);
 			printf("NO\n");
-			skipLines(n);	//The current case is ignored
+			//The current case is ignored
 			continue;
 		}
-		map<set<int>,int> student;
+		
+		map<pair<int,int>, int> student;
+
 		for (int i = 0; i < n; i++)
 		{
 			int a, b;
 			scanf("%d%d", &a, &b);
-			set<int> s;
-			s.insert(a); s.insert(b);
-			student[s]++;
+			pair<int, int> s{ b,a };
+			if (student.count(s))
+				student.erase(s);
+			else
+				student[{a, b}]++;
 		}
+
 		bool workOut = true;
 		for (auto s : student)
 		{
