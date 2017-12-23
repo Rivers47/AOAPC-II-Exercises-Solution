@@ -8,16 +8,6 @@ int compare(const void* a, const void* b)
 	return (*(int*)a - *(int*)b);
 }
 
-double round(double x) 
-{
-	double a = x * 100;
-	if (floor(a) + 0.5 > a)
-		return floor(a) / 100;
-	
-	return ceil(a) / 100;
-}
-
-
 int main()
 {
 	int n, m, g = 1;
@@ -28,9 +18,8 @@ int main()
 
 		int i = 0;
 		while(i < l)
-		{
 			scanf("%d", &regionHeight[i++]);
-		}
+		
 		int volume;
 		scanf("%d", &volume);
 		qsort(regionHeight, l, sizeof(int), compare);
@@ -54,10 +43,10 @@ int main()
 			i++;
 		}
 
-		double h = round((double)volume / ((i + 1)*area) + regionHeight[i]);
+		double h = volume / ((i + 1.)*area) + regionHeight[i];
 		if (volume == 0)
 			i--;
-		double percentage = round((double)(i + 1) / l * 100);
+		double percentage = (i + 1) / (l * 100.);
 		printf("Region %d\nWater level is %.2f meters.\n%.2f percent of the region is under water.\n\n", g++, h, percentage);
 		free(regionHeight);
 	}
