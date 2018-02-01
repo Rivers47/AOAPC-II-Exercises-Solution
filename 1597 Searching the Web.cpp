@@ -198,7 +198,7 @@ void outputWholeDoc(const list<int>& docs)
 		cout << i << "\n";
 }
 
-void output(const map<int,set<int>>& occ)	//need work, the ------is used to seperate documents
+void output(const map<int,set<int>>& occ)
 {
 	for (auto& each : occ)	//pair<int,set<int>>
 	{
