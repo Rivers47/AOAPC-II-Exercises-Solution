@@ -4,4 +4,9 @@ https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=8
 
 For the c++ codes, they usually require c++11 to compile.
 
-All of the codes except Xiangqi have passed the OJ.
+codes didn't pass the OJ for reasons like formatting or...I don't know, but the logic should be correct
+1589 Xiangqi
+806 Spatial Structures
+246 20-30-40
+
+All other ones have passed the OJ
