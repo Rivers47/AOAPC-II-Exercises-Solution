@@ -5,6 +5,8 @@
 #include <map>
 using namespace std;
 
+//source:
+//https://blog.csdn.net/crazysillynerd/article/details/43876123
 const int MAX = 100000000;
 
 int N;
