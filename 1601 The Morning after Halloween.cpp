@@ -6,6 +6,7 @@
 #include <cstring>
 //#define printf(...)
 using namespace std;
+
 struct cood
 {
     char x;
@@ -19,8 +20,8 @@ using state = vector<cood>;
 
 int W, H, N;
 char map[16][16];
-char proc[16][16]; //1 2 4 8
-state init, fin;
+char proc[16][16]; //1 2 4 8    //processed map, each bit represents a direction, in the order of up, down, left, right
+state init, fin;    //initial and final state
 
 void reset()
 {
@@ -28,13 +29,13 @@ void reset()
     fin.resize(N);
 }
 
-int encode(state &s)
+//encode state to a single int
+inline int encode(state &s)
 {
     int e = 0;
     for (int i = 0; i < N; i++)
     {
-        int a = s[i].x, b = s[i].y;
-        e += (a << (8 * i)) + (b << (4 + 8 * i));
+        e += ((int)s[i].x << (8 * i)) + ((int)s[i].y << (4 + 8 * i));
     }
     return e;
 }
@@ -42,7 +43,10 @@ int encode(state &s)
 const char mask[] = {15, 1, 2, 4, 8};
 const int dx[] = {0, -1, 1, 0, 0}, dy[] = {0, 0, 0, -1, 1};
 void generate(state &old, vector<state> &l, state &s, int count);
-inline bool collision(cood& a, cood& b, cood& c, cood& d)
+
+//check if two robots occupy the same cood or switched cood
+//a b are old positions, c d are new positions repectively
+inline bool collision(cood& a, cood& b, cood& c, cood& d)   
 {
     if (c == d)
         return true;
@@ -51,14 +55,19 @@ inline bool collision(cood& a, cood& b, cood& c, cood& d)
 
     return false;
 }
+
+//generate preceeding states, store the results in l
 void newstates(state &old, vector<state> &l)
 {
     state s(N);
     generate(old, l, s, N - 1);
 }
+
+/*  generate preceeding states recurcively 
+    for each genrated state, it is filled backwards */
 void generate(state &old, vector<state> &l, state &s, int count)
 {
-    if (count == 0)
+    if (count == 0) //base case
     {
         for (int i = 0; i <= 4; i++)
         {
@@ -97,11 +106,11 @@ void generate(state &old, vector<state> &l, state &s, int count)
     }
 }
 
-
+//standard BFS algorithm
 int BFS()
 {
     queue<pair<state, int>> Q;
-    int step = 0, nextstep = 0;
+    int step = 0;
     Q.push({init, step});
     //set<int> vis;
     vector<bool> vis(2<<24);
@@ -110,9 +119,9 @@ int BFS()
     {
         pair<state, int> s = Q.front();
         Q.pop();
-
         if (s.first == fin)
             return s.second;
+
         step = s.second + 1;
         vector<state> lst;
         newstates(s.first, lst);
@@ -124,7 +133,7 @@ int BFS()
             Q.push({each, step});
         }
     }
-    return -1;
+    return -1;  //this should never happen, since the question gurantees the existence of solution
 }
 
 void encodeDirections(int &x, int &y)
@@ -142,7 +151,6 @@ int main()
     //cin.tie(0);cin.sync_with_stdio(0);
     while (1)
     {
-
         cin >> W >> H >> N;
         if (!(W || H || N))
             break;
